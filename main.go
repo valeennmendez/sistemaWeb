@@ -1,65 +1,3 @@
-/* package main
-
-import (
-	"net/http"
-
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
-	"github.com/valeennmendez/api-go/connection"
-	"github.com/valeennmendez/api-go/models"
-	"github.com/valeennmendez/api-go/routes"
-)
-
-func main() {
-
-	connection.ConnectionDB()
-
-	connection.DB.AutoMigrate(&models.Patients{})
-	connection.DB.AutoMigrate(&models.Admin{})
-
-	r := gin.Default()
-
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://127.0.0.1:3000"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		AllowCredentials: true,
-	}))
-
-	// Servir archivos estáticos
-	r.Static("/pages", "./pages")
-
-	r.POST("/create", routes.CreatePatient)
-	r.GET("/patients", routes.GetAllPatients)
-	r.DELETE("/patients/:id", routes.DeletePacients)
-	r.GET("/patients/:id", routes.GetPatientByID)
-	r.PUT("/edit/:id", routes.EditPatient)
-	r.GET("/total-patients", routes.TotalPatientsData)
-
-	//REGISTER HANDLERS:
-
-	r.POST("/register", routes.RegisterUser)
-	r.POST("/login", routes.Login)
-
-	//Servir archivos estáticos
-	r.Static("/pages", "./pages")
-	r.StaticFile("/login.html", "./pages/login.html")
-	r.StaticFile("/index.html", "./pages/index.html")
-
-	r.Use(routes.AuthMiddleware())
-	r.StaticFile("/index.html", "./pages/index.html")
-
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusAccepted, gin.H{
-			"message": "Corriendo",
-		})
-	})
-
-	r.Run()
-
-}
-*/
-
 package main
 
 import (
@@ -127,5 +65,5 @@ func main() {
 		})
 	})
 
-	r.Run(":8080")
+	r.Run("0.0.0.0:8080")
 }
