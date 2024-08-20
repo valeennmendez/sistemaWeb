@@ -56,6 +56,8 @@ func main() {
 	r.GET("/search-patient", routes.SearchPatient)
 	r.GET("/appointments", routes.GetAllAppointments)
 
+	r.GET("/after-login", routes.AfterLogin)
+	
 	r.DELETE("/cancel-appointment/:id", routes.CancelAppointment) // <--- DEBE ESTAR PUBLICA SI O SI.
 
 	// Ruta raíz
