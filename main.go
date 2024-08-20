@@ -33,8 +33,7 @@ func main() {
 	r.Static("/static", "./static")
 
 	// Servir archivos HTML desde el directorio "./pages"
-	r.StaticFile("/index.html", "./pages/index.html")
-	r.StaticFile("/login.html", "./pages/login.html")
+	r.Static("/", "./pages")
 	
 	// Rutas de autenticación
 	r.POST("/register", routes.RegisterUser)
