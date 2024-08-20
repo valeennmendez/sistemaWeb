@@ -27,7 +27,7 @@ func main() {
 	}))
 
  	// Servir archivos estáticos
-	r.Static("/pages", "./pages")
+	r.Static("/static", "./static")
 /* 	r.StaticFile("/login.html", "./pages/login.html") 
 	r.StaticFile("/index.html", "./pages/index.html")  */
 
