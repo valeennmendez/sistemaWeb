@@ -28,7 +28,7 @@ package connection
 import (
     "fmt"
     "os"
-    "net/url"
+    //"net/url"
 
     "gorm.io/driver/mysql"
     "gorm.io/gorm"
