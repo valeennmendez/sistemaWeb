@@ -60,7 +60,7 @@ func main() {
 
 	// Ruta raíz
 	r.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/login.html")
+		c.Redirect(http.StatusMovedPermanently, "/index.html")
 	})
 
 	r.Run("0.0.0.0:8080")
