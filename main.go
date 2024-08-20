@@ -56,13 +56,12 @@ func main() {
 	r.GET("/search-patient", routes.SearchPatient)
 	r.GET("/appointments", routes.GetAllAppointments)
 
-	r.GET("/after-login", routes.AfterLogin)
 	
 	r.DELETE("/cancel-appointment/:id", routes.CancelAppointment) // <--- DEBE ESTAR PUBLICA SI O SI.
 
 	// Ruta raíz
 	r.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusOK, "/index.html")
+		c.Redirect(http.StatusOK, "/login.html")
 	})
 
 	r.Run("0.0.0.0:8080")
