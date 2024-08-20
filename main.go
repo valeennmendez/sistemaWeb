@@ -64,9 +64,9 @@ func main() {
 	r.DELETE("/cancel-appointment/:id", routes.CancelAppointment) // <--- DEBE ESTAR PUBLICA SI O SI.
 
 	// Ruta raíz
-/* 	r.GET("/", func(c *gin.Context) {
+ 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(http.StatusOK, "/login.html")
 	})
- */
+ 
 	r.Run("0.0.0.0:8080")
 }
