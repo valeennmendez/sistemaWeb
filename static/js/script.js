@@ -3,7 +3,7 @@ console.log("Conectado...")
 const urlApi = "http://localhost:8080/patients"
 
 
-function ValidateSession(){
+/* function ValidateSession(){
     fetch("https://sistemaweb-production.up.railway.app/validate",{
         method: "GET",
         credentials: "include"
@@ -14,7 +14,7 @@ function ValidateSession(){
         }
     })
     .catch(error => console.error(error))
-}
+} */
 
 function CountPatients(){
     const contadorPatients = document.getElementById("totalPatients")
