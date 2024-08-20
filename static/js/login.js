@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         .then(data =>{
             console.log(data.message)
             if(data.message === 'Login succesful'){
-                window.location.href = "/index.html"
+                window.location.href = "https://sistemaweb-production.up.railway.app/index.html"
                 //window.location.href = "https://sistemaweb-production.up.railway.app/index.html"
                 return
             }else{
