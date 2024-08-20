@@ -4,7 +4,7 @@ const urlApi = "http://localhost:8080/patients"
 
 
 function ValidateSession(){
-    fetch("http://localhost:8080/validate",{
+    fetch("https://sistemaweb-production.up.railway.app/validate",{
         method: "GET",
         credentials: "include"
     })
