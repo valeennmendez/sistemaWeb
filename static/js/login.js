@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         console.log(email, password)
 
-        fetch("http://localhost:8080/login",{
+        fetch("https://sistemaweb-production.up.railway.app/login",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
