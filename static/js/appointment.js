@@ -2,7 +2,7 @@ console.log("Conectado...")
 
 function GetAllAppointments(){
 
-    fetch(`http://localhost:8080/appointments`,{
+    fetch(`https://sistemaweb-production.up.railway.app/appointments`,{
         method: "GET",
         credentials: "include"
     })
@@ -40,7 +40,7 @@ function CancelAppointments(){
     if(button){
         button.addEventListener("click", function(e){
             
-            fetch(`http://localhost:8080/cancel-appointment`)
+            fetch(`https://sistemaweb-production.up.railway.app/cancel-appointment`)
         })
     }
 }
@@ -52,7 +52,7 @@ function SearchPatientsForm(){
         const query = this.value;
 
         if(query.length > 2){
-            fetch(`http://localhost:8080/search-patient?p=${encodeURIComponent(query)}`)
+            fetch(`https://sistemaweb-production.up.railway.app/search-patient?p=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data =>{
                     const resultDropdown = document.getElementById("resultsDropdown")
