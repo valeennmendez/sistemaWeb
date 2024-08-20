@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function(e){
                 //window.location.href = "https://sistemaweb-production.up.railway.app/index.html"
                 return
             }else{
+                error.innerHTML = data.message || "Login failed";
                 error.classList.add("active")
                 return
             }
