@@ -29,7 +29,8 @@ func main() {
 	// Servir archivos estáticos
 	r.Static("/static", "./static")
 	r.StaticFile("/login.html", "./pages/login.html")
-
+	r.Static("/", "./pages")
+	
 	// Rutas de autenticación
 	r.POST("/register", routes.RegisterUser)
 	r.POST("/login", routes.Login)
