@@ -26,8 +26,14 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// Servir archivos estáticos
+/* 	// Servir archivos estáticos
 	r.Static("/static", "./static")
+	r.StaticFile("/login.html", "./pages/login.html") */
+
+	r.Static("/static", "./static")
+
+	// Servir archivos HTML desde el directorio "./pages"
+	r.StaticFile("/index.html", "./pages/index.html")
 	r.StaticFile("/login.html", "./pages/login.html")
 	
 	// Rutas de autenticación
