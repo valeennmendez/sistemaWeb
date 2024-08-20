@@ -110,11 +110,23 @@ func Login(c *gin.Context) {
 	}
 	session.Save(c.Request, c.Writer)
 
-	c.JSON(http.StatusOK, gin.H{
+/*  	c.JSON(http.StatusOK, gin.H{
 		"message": "Login succesful",
 		"session": session.ID,
-	})
+	}) 
+ */
 
+	c.Redirect(http.StatusFound, "/after-login")
+}
+
+func AfterLogin(c *gin.Context) {
+	session, _ := store.Get(c.Request, "session-name")
+	if session.Values["authenticated"] != true {
+		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+
+	c.Redirect(http.StatusFound, "/index.html")
 }
 
 func AuthMiddleware() gin.HandlerFunc {
