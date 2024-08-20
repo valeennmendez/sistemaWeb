@@ -42,6 +42,6 @@ document.addEventListener("DOMContentLoaded", function(e){
                 return
             }
         })
-        //.catch(error => console.error(error))
+        .catch(error => console.error(error))
     })
 })
