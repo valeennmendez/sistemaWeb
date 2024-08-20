@@ -60,9 +60,7 @@ func main() {
 
 	// Ruta raíz
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusAccepted, gin.H{
-			"message": "Corriendo",
-		})
+		c.Redirect(http.StatusMovedPermanently, "/index.html")
 	})
 
 	r.Run("0.0.0.0:8080")
