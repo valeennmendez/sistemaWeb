@@ -28,7 +28,6 @@ package connection
 import (
     "fmt"
     "os"
-    //"net/url"
 
     "gorm.io/driver/mysql"
     "gorm.io/gorm"
@@ -37,10 +36,11 @@ import (
 var DB *gorm.DB
 
 func ConnectionDB() {
-    // Lee la variable de entorno
     dbURL := os.Getenv("MYSQL_URL")
+    if dbURL == "" {
+        panic("No se ha definido la variable de entorno MYSQL_URL")
+    }
 
-    // Abre la conexión a la base de datos
     var err error
     DB, err = gorm.Open(mysql.Open(dbURL), &gorm.Config{})
     if err != nil {
@@ -49,3 +49,4 @@ func ConnectionDB() {
 
     fmt.Println("Base de Datos corriendo...")
 }
+
