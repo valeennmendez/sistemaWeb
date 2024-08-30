@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,6 +42,7 @@ func RegisterUser(c *gin.Context) {
 	}
 
 	userAdmin.Password = string(passwordHashed)
+	userAdmin.Status = "pending"
 
 	if err := connection.DB.Create(&userAdmin).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -50,7 +52,7 @@ func RegisterUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{
-		"message": "UserAdmin created succesfully",
+		"message": "UserAdmin created succesfully, pending approval",
 	})
 }
 
@@ -92,6 +94,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	if user.Status != "approved" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not approved"})
+		return
+	}
+
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginRequest.Password)); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid email or password",
@@ -108,13 +115,17 @@ func Login(c *gin.Context) {
 		Secure:   true,
 		SameSite: http.SameSiteNoneMode,
 	}
-	session.Save(c.Request, c.Writer)
 
-  	c.JSON(http.StatusOK, gin.H{
+	err := session.Save(c.Request, c.Writer)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
 		"message": "Login succesful",
 		"session": session.ID,
-	}) 
-
+	})
 
 }
 
@@ -126,6 +137,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "No se pudo establecer la session",
 			})
+			return
 		}
 
 		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
@@ -148,6 +160,7 @@ func ValidateSession(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Session valid",
 	})
@@ -179,4 +192,71 @@ func CloseSesion(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Sesión cerrada",
 	})
+}
+
+func ApproveUser(c *gin.Context) {
+	var user models.Admin
+
+	userID := c.Param("id")
+
+	fmt.Println(userID)
+
+	if err := connection.DB.First(&user, userID).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "user not found",
+		})
+		return
+	}
+
+	user.Status = "approved"
+
+	if err := connection.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to approve user",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "user approved",
+	})
+
+}
+
+func GetAllAdmins(c *gin.Context) {
+	var admins []models.Admin
+
+	connection.DB.Find(&admins)
+
+	c.JSON(http.StatusOK, admins)
+
+}
+
+func DeclineUser(c *gin.Context) {
+	var user models.Admin
+
+	userID := c.Param("id")
+
+	fmt.Println(userID)
+
+	if err := connection.DB.First(&user, userID).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "user not found",
+		})
+		return
+	}
+
+	user.Status = "decline"
+
+	if err := connection.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to decline user",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "user decline",
+	})
+
 }
