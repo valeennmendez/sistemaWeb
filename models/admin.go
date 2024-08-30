@@ -9,4 +9,5 @@ type Admin struct {
 	Email    string `json: "email" validate:"required"`
 	Password string `json: "password" validate:"required"`
 	Phone    string `json: "phone" validate: "phone"`
+	Status   string `json: "status"`
 }
