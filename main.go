@@ -20,19 +20,15 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://sistemaweb-production.up.railway.app"},
+		AllowOrigins:     []string{"http://127.0.0.1:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}))
 
- 	// Servir archivos estáticos
-	//r.Static("/static", "./static")
-/* 	r.StaticFile("/login.html", "./pages/login.html") 
-	r.StaticFile("/index.html", "./pages/index.html")  */
-
-	r.Static("/static", "./static") // Servir archivos CSS, JS e imágenes
-	r.StaticFile("/login.html", "./static/login.html")
+	// Servir archivos estáticos
+	r.Static("/static", "./static")
+	r.StaticFile("/login.html", "./pages/login.html")
 
 	// Rutas de autenticación
 	r.POST("/register", routes.RegisterUser)
@@ -51,22 +47,26 @@ func main() {
 		protected.PUT("/edit/:id", routes.EditPatient)
 		protected.DELETE("/patients/:id", routes.DeletePacients)
 		protected.GET("/total-patients", routes.TotalPatientsData)
+		protected.POST("/create-appointment", routes.CreateAppoinment)
+		protected.GET("/appointment-today", routes.AppointmentToday)
+		protected.GET("/available-hours", routes.GetAviableHours)
+		protected.GET("/search-patient", routes.SearchPatient)
+		protected.GET("/appointments", routes.GetAllAppointments)
+		protected.GET("/appointments-week", routes.AppointmentWeek)
+		protected.POST("/approve-user/:id", routes.ApproveUser)
+		protected.POST("/decline-user/:id", routes.DeclineUser)
+		protected.GET("/admins", routes.GetAllAdmins)
 
 	}
 
-	r.POST("/create-appointment", routes.CreateAppoinment)
-	r.GET("/appointment-today", routes.AppointmentToday)
-	r.GET("/available-hours", routes.GetAviableHours)
-	r.GET("/search-patient", routes.SearchPatient)
-	r.GET("/appointments", routes.GetAllAppointments)
-
-	
 	r.DELETE("/cancel-appointment/:id", routes.CancelAppointment) // <--- DEBE ESTAR PUBLICA SI O SI.
 
 	// Ruta raíz
- 	r.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusOK, "/static/login.html")
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusAccepted, gin.H{
+			"message": "Corriendo",
+		})
 	})
- 
-	r.Run("0.0.0.0:8080")
+
+	r.Run(":8080")
 }
